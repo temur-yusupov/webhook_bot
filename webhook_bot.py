@@ -3,7 +3,7 @@
 import telebot
 from flask import Flask, request
 
-TOKEN = '6770537981:AAHzQiCwQZ_IObo1E75ol4Gs75aoxScYInE'
+TOKEN = '123:ABC'
 bot = telebot.TeleBot(TOKEN, threaded=False)
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ def getMessage():
 @app.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url="https://temuryusupov.pythonanywhere.com/" + TOKEN)
+    bot.set_webhook(url="https://example.com/" + TOKEN)
     return ''
 
 @bot.message_handler(commands=['start'])
