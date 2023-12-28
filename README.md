@@ -1,2 +1,2 @@
-# webhook_bot
-Set up a webhook in pyTelegramBotAPI 
+# INSTRUCTIONS
+This code is built in the pyTelegramBotAPI library to set a webhook using Flask.
