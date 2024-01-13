@@ -1,30 +1,26 @@
-# This code is built in the pyTelegramBotAPI library to set a webhook using Flask.
-
-import telebot
+from telebot import TeleBot
 from flask import Flask, request
+from telebot.types import Update
 
 TOKEN = '123:ABC'
-bot = telebot.TeleBot(TOKEN, threaded=False)
+bot = TeleBot(TOKEN, threaded=False)
 app = Flask(__name__)
 
 @app.route('/' + TOKEN, methods=['POST'])
 def getMessage():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode('UTF-8'))])
-    return ''
+    update = Update.de_json(request.stream.read().decode('utf-8'))
+    bot.process_new_updates([update])
+    return 'ok', 200
 
-@app.route("/")
+@app.route('/')
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url="https://example.com/" + TOKEN)
-    return ''
+    bot.set_webhook(url='https://example.com/' + TOKEN)
+    return 'ok', 200
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "Hello")
-
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
-    bot.reply_to(message, message.text)
+    bot.send_message(message.chat.id, "Hi!")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=4000)
